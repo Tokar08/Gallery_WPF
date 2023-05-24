@@ -1,0 +1,36 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style x:Key="GridStyle" TargetType="Grid">
+        <Setter Property="Grid.Background">
+            <Setter.Value>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFD7C7"/>
+                    <GradientStop Color="#ffd3ff"/>
+
+                    <GradientStop Color="#ffffff" Offset="1"/>
+                </LinearGradientBrush>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="MenuStyle" TargetType="Menu">
+        <Setter Property="Menu.Background" Value="AntiqueWhite"/>
+        <Setter Property="Menu.Foreground" Value="Brown"/>
+    </Style>
+
+    <Style x:Key="CheckBoxStyle" TargetType="CheckBox">
+        <Setter Property="ComboBox.Background" Value="AntiqueWhite"/>
+        <Setter Property="ComboBox.Foreground" Value="Brown"/>
+      
+    </Style>
+
+	<Style x:Key="LabelStyle" TargetType="Label">
+		<Setter Property="Label.Foreground" Value="Brown"/>
+	</Style>
+
+
+	<Style x:Key="SplitterStyle" TargetType="GridSplitter">
+        <Setter Property="GridSplitter.Background" Value="DimGray" />
+    </Style>
+
+</ResourceDictionary>

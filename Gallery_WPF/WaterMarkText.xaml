@@ -1,0 +1,84 @@
+﻿<Window x:Class="Gallery_WPF.WaterMarkText"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gallery_WPF"
+        mc:Ignorable="d"
+       Title="PictureInfo" Height="200" Width="450"  AllowsTransparency="True"
+        WindowStyle="None" ResizeMode="CanMinimize"  WindowStartupLocation="CenterScreen" Background="White">
+
+    <Window.Clip>
+        <RectangleGeometry Rect="0 0 450 200" RadiusX="25" RadiusY="25"/>
+    </Window.Clip>
+
+    <Window.Resources>
+        <Style x:Key="FocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Rectangle Margin="2" StrokeDashArray="1 2" Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" SnapsToDevicePixels="true" StrokeThickness="1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <SolidColorBrush x:Key="Button.Static.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Static.Border" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Background" Color="#FFBEE6FD"/>
+        <SolidColorBrush x:Key="Button.MouseOver.Border" Color="#FF3C7FB1"/>
+        <SolidColorBrush x:Key="Button.Pressed.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Pressed.Border" Color="#FF2C628B"/>
+        <SolidColorBrush x:Key="Button.Disabled.Background" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Disabled.Border" Color="#FFDDDDDD"/>
+        <SolidColorBrush x:Key="Button.Disabled.Foreground" Color="#FFDDDDDD"/>
+        <Style x:Key="RoundedButtonStyle" TargetType="{x:Type Button}">
+            <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+            <Setter Property="Background" Value="{StaticResource Button.Static.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" CornerRadius="20" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#2807e6"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#2807e6"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter Property="Background" TargetName="border" Value="#05FAD6"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#05FAD6"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Background" TargetName="border" Value="#05FAD6"/>
+                                <Setter Property="BorderBrush" TargetName="border" Value="#05FAD6"/>
+                                <Setter Property="TextElement.Foreground" TargetName="contentPresenter" Value="#FFDDDDDD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Label Content="i" FontSize="23" FontFamily="Yu Gothic Medium" Margin="423,-7,10,177">
+            <Label.ToolTip>
+                <ToolTip Content="The image will be updated in the original folder as soon as you click the Save button" FontSize="13" FontFamily="Yu Gothic Medium"/>
+            </Label.ToolTip>
+        </Label>
+
+        <TextBlock Text="Enter text for watermark:" Margin="88,19,62,140" FontSize="23" FontFamily="Yu Gothic Medium"/>
+
+        <TextBox x:Name="tbWaterMark" Margin="88,80,88,95" FontSize="15" FontFamily="Yu Gothic Medium"/>
+        <Button x:Name="btnSave" Content="Save" Margin="88,124,88,42" Click="btnSave_Click" Style="{DynamicResource RoundedButtonStyle}"  FontWeight="Bold" FontSize="20" Background="#FF1B9811" Foreground="#FFB5B4B4"/>
+    </Grid>
+</Window>

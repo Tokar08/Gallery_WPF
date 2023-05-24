@@ -1,0 +1,142 @@
+﻿<Window x:Class="Gallery_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gallery_WPF"
+        mc:Ignorable="d"
+        
+        Title="MainWindow" Height="441" Width="861" KeyDown="Window_KeyDown"  AllowsTransparency="True"
+        WindowStyle="None" ResizeMode="CanMinimize"  WindowStartupLocation="CenterScreen">
+
+    <Window.Clip>
+        <RectangleGeometry Rect="0 0 861 441" RadiusX="25" RadiusY="25"/>
+    </Window.Clip>
+
+    <Window.Resources>
+        <Style x:Key="ActiveImageStyle" TargetType="Border">
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform ScaleX="1" ScaleY="1" />
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+
+
+    <Grid Style="{DynamicResource GridStyle}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="150"/>
+        </Grid.RowDefinitions>
+
+        <!--Menu-->
+
+        <DockPanel Grid.Row="0">
+
+            <Menu  Style="{DynamicResource MenuStyle}" FontSize="16" FontFamily="Yu Gothic Medium">
+                <MenuItem Header="Menu" Margin="15,0,5,0" >
+                    <MenuItem x:Name="menuOpen" Header="Open Directory" Click="MenuOpen_Click" />
+                    <MenuItem x:Name="menuExit" Header="Exit" Click="MenuExit_Click" />
+                </MenuItem>
+                <MenuItem x:Name="menuThemeScreen" Header="Themes" Margin="0 0 5 0">
+
+                    <MenuItem x:Name="menuLightTheme" Header="Light" Click="MenuLightTheme_Click"/>
+                    <MenuItem x:Name="menuDarkTheme" Header="Dark" Click="MenuDarkTheme_Click" />
+                    <MenuItem x:Name="menuGradientTheme" Header="Gradient" Click="MenuGradientTheme_Click"/>
+
+                </MenuItem>
+
+                <MenuItem Header="Options" Margin="0 0 5 0">
+                    <MenuItem x:Name="menuFullScreen" Header="Full Screen" Click="MenuFullScreen_Click"/>
+                    <MenuItem x:Name="menuFeedback" Header="Feedback" Click="menuFeedback_Click"/>
+                    <MenuItem x:Name="menuDelete" Header="Delete" Click="MenuDelete_Click"/>
+
+                </MenuItem>
+
+                <CheckBox  Margin="3 0 0 0" x:Name="menuShowFavorites" Content="Show Favorites" Checked="menuShowFavorites_Checked" Unchecked="menuShowFavorites_Unchecked" Style="{DynamicResource CheckBoxStyle}"/>
+                <MenuItem Header="i"  Margin="448 0 0 0">
+                    <MenuItem.ToolTip>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Ctrl + O - Open folder browser dialog" FontSize="16" FontFamily="Yu Gothic Medium" Name ="ttOpen"/>
+                            <TextBlock Text="Ctrl + F - Full screen mode " FontSize="16" FontFamily="Yu Gothic Medium" Name="ttFull"/>
+                            <TextBlock Text="Ctrl + W - Add watermark to picture" FontSize="16" FontFamily="Yu Gothic Medium" Name ="ttAdd"/>
+                            <TextBlock Text="Ctrl + I - Picture Information" FontSize="16" FontFamily="Yu Gothic Medium" Name="ttInfo"/>
+                            <TextBlock Text="Ctrl + LWin - Set up on the desktop" FontSize="16" FontFamily="Yu Gothic Medium" Name="ttSet"/>
+                            <TextBlock Text="F1 - Light theme" FontSize="16" FontFamily="Yu Gothic Medium" />
+                            <TextBlock Text="F2 - Dark theme" FontSize="16" FontFamily="Yu Gothic Medium" />
+                            <TextBlock Text="F3 - Gradient theme" FontSize="16" FontFamily="Yu Gothic Medium" />
+                            <TextBlock Text="C - Display Favorites" FontSize="16" FontFamily="Yu Gothic Medium"  Name="ttDisplayF"/>
+                            <TextBlock Text="V - Hide Favorites" FontSize="16" FontFamily="Yu Gothic Medium" />
+                            <TextBlock Text="Space - Carousel (Fullscreen)" FontSize="16" FontFamily="Yu Gothic Medium" Name ="ttCarousel"/>
+                            <TextBlock Text="Del - Delete" FontSize="16" FontFamily="Yu Gothic Medium" Name ="ttDelete"/>
+                            <TextBlock Text="Esc - Exit" FontSize="16" FontFamily="Yu Gothic Medium" />
+
+                        </StackPanel>
+                    </MenuItem.ToolTip>
+                </MenuItem>
+            </Menu>
+
+        </DockPanel>
+
+
+        <Slider x:Name="MySliderLight" Margin="806,50,35,10" Grid.Row="1" Orientation="Vertical" ValueChanged="MySliderLight_ValueChanged" Width="20"/>
+        <Label Content="Dimming" FontSize="16" FontFamily="Yu Gothic Medium" Margin="702,0,80,223" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Name="DarkLabel"  Style="{DynamicResource LabelStyle}"/>
+        <Label Content="Lighting" FontSize="16" FontFamily="Yu Gothic Medium" Margin="786,0,-4,223" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Name="LightLabel" Style= "{DynamicResource LabelStyle}" />
+ 
+
+        <Slider x:Name="MySliderDark"  Margin="732,50,109,0"  Orientation="Vertical" ValueChanged="MySliderDark_ValueChanged"  Minimum="0" Maximum="100" Height="197" VerticalAlignment="Top" Grid.Row="1" Width="20"/>
+        <!--Preview image-->
+
+        <Image Grid.Row="1" x:Name="imgPreview" HorizontalAlignment="Center"/>
+
+        <!--Splitter-->
+        <GridSplitter Grid.Row="2" Height="5" HorizontalAlignment="Stretch"  Style="{DynamicResource SplitterStyle}"/>
+
+
+        <!--Stack of images-->
+        <ScrollViewer Grid.Row="3" 
+                      x:Name ="scroll"
+                      AllowDrop="True"
+                      Drop ="ScrollViewer_Drop"
+                      DragOver="ScrollViewer_DragOver"
+                      DragEnter="ScrollViewer_DragEnter"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Disabled" >
+            <StackPanel
+                x:Name="stack"
+                Orientation="Horizontal"  Margin="0,0,0,20">
+
+                <StackPanel.ContextMenu>
+                    <ContextMenu>
+                        <ContextMenu.ItemsSource>
+                            <CompositeCollection >
+                                <MenuItem Header="Set up on the desktop" Name="ContextMenuSetWallpaper" Click="ContextMenuSetWallpaper_Click"  FontSize="16" FontFamily="Yu Gothic Medium"/>
+                                <MenuItem Header="Picture Information"  Name ="ContextPictureInformation" Click="ContextPictureInformation_Click"  FontSize="16" FontFamily="Yu Gothic Medium"/>
+                                <MenuItem Header="Add watermark to picture" Name="ContextAddWaterMark" Click="ContextAddWaterMark_Click"    FontSize="16" FontFamily="Yu Gothic Medium"/>
+                                <MenuItem Header="Add to favorites" Name="ContextMenuAddToFavorites" Click="ContextMenuAddToFavorites_Click"  FontSize="16" FontFamily="Yu Gothic Medium"/>
+                                <MenuItem Header="Delete"  Name ="ContextMenuDelete" Click="ContextMenuDelete_Click"  FontSize="16" FontFamily="Yu Gothic Medium"/>
+                                <MenuItem Header="Remove from favorites" Name="ContextMenuRemoveToFavorites" Click="ContextMenuRemoveFromFavorites_Click"  FontSize="16" FontFamily="Yu Gothic Medium"/>
+
+                            </CompositeCollection>
+                        </ContextMenu.ItemsSource>
+                    </ContextMenu>
+                </StackPanel.ContextMenu>
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>
